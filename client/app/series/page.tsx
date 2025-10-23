@@ -1,8 +1,11 @@
 import React from 'react'
+import Navbar from '../components/Navbar'
 
 const SeriesPage = () => {
   return (
-    <div>SeriesPage</div>
+    <div>
+      <Navbar/>
+    </div>
   )
 }
 
