@@ -8,7 +8,8 @@ const app=express();
 app.use(express.json());
 app.use(cors({credentials:true,origin:process.env.CLIENT}));
 
-app.use("/api/movies",movieRoute);
+app.use("/api",movieRoute);
+
 
 const port=process.env.PORT || 5000;
 
