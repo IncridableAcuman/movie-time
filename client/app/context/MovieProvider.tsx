@@ -1,4 +1,5 @@
-import React, { useContext, useState,  createContext } from 'react';
+'use client'
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 import MovieContextType from '../interface/movieType.interface';
 import IMovie from '../interface/movie.interface';
 import toast from 'react-hot-toast';
@@ -6,7 +7,7 @@ import axios from 'axios';
 
 const MovieContext=createContext<MovieContextType | undefined>(undefined);
 
-export const MovieProvider = ({children}:{children:React.ReactNode}) => {
+export const MovieProvider = ({children}:{children:ReactNode}) => {
   const [movies,setMovies]=useState<IMovie[]>([]);
   const [loading,setLoading]=useState<boolean>(false);
 
