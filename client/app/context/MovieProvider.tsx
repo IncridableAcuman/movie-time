@@ -9,6 +9,8 @@ const MovieContext=createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({children}:{children:ReactNode}) => {
   const [movies,setMovies]=useState<IMovie[]>([]);
+  const [cartoons,setCartoons]=useState<IMovie[]>([]);
+  const [series,setSeries]=useState<IMovie[]>([]);
   const [loading,setLoading]=useState<boolean>(false);
 
   const fetchMovies = async (category:string)=>{
@@ -28,7 +30,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
     try {
       setLoading(true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tv/${category}`);
-      setMovies(data);
+      setSeries(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
@@ -54,7 +56,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
      try {
       setLoading(true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/cartoons`);
-      setMovies(data);
+      setCartoons(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
@@ -65,7 +67,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
 
   return (
     <>
-    <MovieContext.Provider value={{movies,setMovies,loading,fetchMovies,fetchTv,fetchGeneres,fetchCartoons}}>
+    <MovieContext.Provider value={{movies,setMovies,cartoons,setCartoons,series,setSeries,loading,fetchMovies,fetchTv,fetchGeneres,fetchCartoons}}>
         {children}
     </MovieContext.Provider>
     </>
