@@ -8,16 +8,23 @@ import axios from 'axios';
 const MovieContext=createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({children}:{children:ReactNode}) => {
-  const [movies,setMovies]=useState<IMovie[]>([]);
   const [cartoons,setCartoons]=useState<IMovie[]>([]);
   const [series,setSeries]=useState<IMovie[]>([]);
+  const [popular,setPopular]=useState<IMovie[]>([]);
+  const [topRated,setTopRated]=useState<IMovie[]>([]);
+  const [upcoming,setUpcoming]=useState<IMovie[]>([]);
+  const [nowPlaying,setNowPlaying]=useState<IMovie[]>([]);
   const [loading,setLoading]=useState<boolean>(false);
+  const [genres,setGenres]=useState<IMovie[]>([]);
 
   const fetchMovies = async (category:string)=>{
     try {
       setLoading(true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/${category}`);
-      setMovies(data);
+      if (category === "popular") setPopular(data.results);
+      if (category === "top_rated") setTopRated(data.results);
+      if (category === "upcoming") setUpcoming(data.results);
+      if (category === "now_playing") setNowPlaying(data.results);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
@@ -43,7 +50,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
      try {
       setLoading(true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/genres/${category}`);
-      setMovies(data);
+      setGenres(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
@@ -67,7 +74,23 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
 
   return (
     <>
-    <MovieContext.Provider value={{movies,setMovies,cartoons,setCartoons,series,setSeries,loading,fetchMovies,fetchTv,fetchGeneres,fetchCartoons}}>
+    <MovieContext.Provider value={{
+        popular,
+        upcoming,
+        genres,
+        cartoons,
+        topRated,
+        series,
+        nowPlaying,
+        setGenres,
+        setSeries,
+        setCartoons,
+        loading,
+        fetchMovies,
+        fetchTv,
+        fetchGeneres,
+        fetchCartoons
+      }}>
         {children}
     </MovieContext.Provider>
     </>
@@ -76,5 +99,6 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
 
 export const useMovie=()=>{
    const context=useContext(MovieContext);
+   if(!context) throw new Error('useMovie must be used inside <MovieProvider>');
    return context;
 }
