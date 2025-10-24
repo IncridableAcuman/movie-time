@@ -10,11 +10,11 @@ module.exports=class Movie{
 
     constructor(movie){
         this.id=movie.id;
-        this.backdrop_path= movie.backdrop_path ? `${imageUrl}/t/p/w500${movie.backdrop_path}` : null;
+        this.backdrop_path= movie.backdrop_path;
         this.genre_ids=movie.genre_ids;
         this.title=movie.title || movie.name;
         this.overview=movie.overview;
-        this.poster_path=movie.poster_path  ? `${imageUrl}/t/p/w500${movie.poster_path}` : null;;
+        this.poster_path=movie.poster_path;
         this.release_date=movie.release_date;
     }
 }

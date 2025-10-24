@@ -14,7 +14,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchMovies = async (category:string)=>{
     try {
       setLoading(true);
-      const {data} = await axios.get(`${process.env.BASE_URL}/movies/${category}`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/${category}`);
       setMovies(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -27,7 +27,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchTv = async (category:string)=>{
     try {
       setLoading(true);
-      const {data} = await axios.get(`${process.env.BASE_URL}/tv/${category}`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tv/${category}`);
       setMovies(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -40,7 +40,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchGeneres = async (category:string)=>{
      try {
       setLoading(true);
-      const {data} = await axios.get(`${process.env.BASE_URL}/genres/${category}`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/genres/${category}`);
       setMovies(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -53,7 +53,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchCartoons = async ()=>{
      try {
       setLoading(true);
-      const {data} = await axios.get(`${process.env.BASE_URL}/cartoons`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/cartoons`);
       setMovies(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -72,7 +72,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   )
 }
 
-export const UseMovie=()=>{
+export const useMovie=()=>{
    const context=useContext(MovieContext);
    return context;
 }
