@@ -10,11 +10,13 @@ export default function Home() {
   const {cartoons,fetchCartoons,loading} = useMovie();
 
   useEffect(()=>{
-    fetchCartoons();
+    if(cartoons.length===0){
+      fetchCartoons();
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  if(loading) return <p className="flex items-center justify-center">Loading...</p>
+  if(loading['cartoons']) return <p className="flex items-center justify-center">Loading...</p>
 
 
 

@@ -12,7 +12,7 @@ interface MovieContextType{
     setGenres:React.Dispatch<React.SetStateAction<IMovie[]>>;
     setSeries:React.Dispatch<React.SetStateAction<IMovie[]>>;
     setCartoons:React.Dispatch<React.SetStateAction<IMovie[]>>;
-    loading:boolean;
+    loading:Record<string,boolean>;
     fetchMovies:(category:string)=>Promise<void>;
     fetchTv:(category:string)=>Promise<void>;
     fetchGeneres:(category:string)=>Promise<void>;

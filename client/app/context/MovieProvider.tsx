@@ -14,61 +14,74 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const [topRated,setTopRated]=useState<IMovie[]>([]);
   const [upcoming,setUpcoming]=useState<IMovie[]>([]);
   const [nowPlaying,setNowPlaying]=useState<IMovie[]>([]);
-  const [loading,setLoading]=useState<boolean>(false);
+  const [loading,setLoading]=useState<Record<string,boolean>>({});
   const [genres,setGenres]=useState<IMovie[]>([]);
+
+  const setLoadingState= (key:string,value:boolean) =>
+    setLoading((prev)=>({...prev,[key]:value}))
 
   const fetchMovies = async (category:string)=>{
     try {
-      setLoading(true);
+      setLoadingState(category,true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/${category}`);
-      if (category === "popular") setPopular(data.results);
-      if (category === "top_rated") setTopRated(data.results);
-      if (category === "upcoming") setUpcoming(data.results);
-      if (category === "now_playing") setNowPlaying(data.results);
+      switch(category){
+        case "popular":
+          setPopular(data);
+          break;
+        case "top_rated":
+          setTopRated(data);
+          break;
+        case "upcoming":
+          setUpcoming(data);
+          break;
+        case "now_playing":
+          setNowPlaying(data);
+          break;
+      }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
     } finally{
-      setLoading(false);
+      setLoadingState(category,false);
     }
   }
 
   const fetchTv = async (category:string)=>{
     try {
-      setLoading(true);
+      setLoadingState(category,true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tv/${category}`);
       setSeries(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
     } finally{
-      setLoading(false);
+      setLoadingState(category,false);
     }
   }
 
   const fetchGeneres = async (category:string)=>{
      try {
-      setLoading(true);
+      setLoadingState(category,true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/genres/${category}`);
       setGenres(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
     } finally{
-      setLoading(false);
+     setLoadingState(category,false);
     }
   }
 
   const fetchCartoons = async ()=>{
      try {
-      setLoading(true);
+      setLoadingState('cartoons',true);
       const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/cartoons`);
       setCartoons(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Error fetching movies:");
     } finally{
-      setLoading(false);
+      setLoadingState('cartoons',false);
     }
   }
 

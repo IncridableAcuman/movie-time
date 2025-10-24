@@ -9,21 +9,23 @@ const Movie = ({category,content}:{category:string,content:string}) => {
     const {fetchMovies,popular,upcoming,topRated,nowPlaying,loading} = useMovie();
 
     const movies =  category ==="popular"
-                    ? popular
+                    ? popular ?? []
                     : category ==="upcoming"
-                    ? upcoming 
+                    ? upcoming ?? []
                     : category ==="top_rated"
-                    ? topRated 
+                    ? topRated ?? []
                     : category === "now_playing"
-                    ? nowPlaying 
+                    ? nowPlaying ?? []
                     : []
 
     useEffect(()=>{
-        fetchMovies(category);
+        if(!movies ||  movies.length===0){
+            fetchMovies(category);
+        }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
-    if(loading) return <p className='flex items-center justify-center'>Loading...</p>
+    if(loading[category]) return <p className="flex items-center justify-center">Loading...</p>
 
   return (
     <div className="">
