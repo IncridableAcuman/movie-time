@@ -5,6 +5,7 @@ import { useMovie } from "./context/MovieProvider";
 import { useEffect } from "react";
 import IMovie from "./interface/movie.interface";
 import Movie from "./components/Movie";
+import Loading from "./components/Loading";
 
 export default function Home() {
   const {cartoons,fetchCartoons,loading} = useMovie();
@@ -16,7 +17,14 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-  if(loading['cartoons']) return <p className="flex items-center justify-center">Loading...</p>
+  
+    if(loading['cartoons']) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center bg-black/80 opacity-80">
+                <Loading/>
+            </div>
+        )
+    }
 
 
 
@@ -39,12 +47,23 @@ export default function Home() {
           }
         </div>
         {/* movies start */}
-        <Movie  category="popular" content="Popular"  />
-        <Movie category="top_rated" content="Top Rated" />
-        <Movie  category="upcoming" content="Upcoming"  />
-        <Movie category="now_playing" content="Now Playing" />
+        <Movie  category="popular" content="Mashxur"  />
+        <Movie category="top_rated" content="Eng baxshi baholangan" />
+        <Movie  category="upcoming" content="Yaqinlashib kelayotgan"  />
+        <Movie category="now_playing" content="Hozir ijro etilmoqda" />
         {/* movies end */}
       </div>
+      <div className="pdg">
+        <h1 className="text-lg md:text-2xl py-2 md:py-6 font-semibold">{`960 dan ortiq filmlarga ega onlayn kinoteatr bo'lgan Kinomorega xush kelibsiz!+`}</h1>
+        <p>
+              {`Bizning qulay qidiruv tizimimiz yordamida izlayotgan filmingizni tez va oson toping.
+              Biz turli janr va janrlardagi filmlarning keng tanlovini taklif etamiz - klassikadan
+                tortib yangi chiqarilgan filmlargacha, dramalardan tortib jangovar filmlargacha.
+                Kinomoreda siz sevimli filmlaringizni istalgan vaqtda, istalgan joyda yuqori sifatli 
+                tomosha qilishingiz mumkin. Veb-saytimizda ro'yxatdan o'ting va o'zingizni kinoning maftunkor dunyosiga sho'ng'ishni boshlang!`}
+        </p>
+      </div>
+      {/* footer */}
     </div>
   );
 }

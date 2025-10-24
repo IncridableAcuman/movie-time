@@ -3,10 +3,11 @@ import React, { Key, useEffect } from 'react'
 import { useMovie } from '../context/MovieProvider'
 import Image from 'next/image';
 import IMovie from '../interface/movie.interface';
+import { ArrowRight } from 'lucide-react';
 
 const Movie = ({category,content}:{category:string,content:string}) => {
 
-    const {fetchMovies,popular,upcoming,topRated,nowPlaying,loading} = useMovie();
+    const {fetchMovies,popular,upcoming,topRated,nowPlaying} = useMovie();
 
     const movies =  category ==="popular"
                     ? popular ?? []
@@ -25,11 +26,9 @@ const Movie = ({category,content}:{category:string,content:string}) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
 
-    if(loading[category]) return <p className="flex items-center justify-center">Loading...</p>
-
   return (
     <div className="">
-        <h1 className='pl-16 md:pl-40 text-lg font-semibold'>{content} Movies</h1>
+        <h1 className='pl-16 md:pl-40 text-lg font-semibold flex items-center gap-3'>{content} Kinolar <ArrowRight size={20} className='cursor-pointer text-gray-400 hover:text-white transition-colors duration-300'/></h1>
         <div className='pdg flex items-center gap-4 overflow-x-auto scrollbar-hide'>
                 {
                    movies.map((movie:IMovie,index:Key | undefined)=>(
