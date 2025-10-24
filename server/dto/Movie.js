@@ -5,7 +5,7 @@ module.exports=class Movie{
     title;
     overview;
     poster_path;
-    release_date
+    release_date;
 
     constructor(movie){
         this.id=movie.id;
