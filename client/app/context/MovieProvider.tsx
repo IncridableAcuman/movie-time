@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { createContext } from 'vm'
 
-const MovieContext=createContext();
+const MovieContext=createContext<>();
 
 export const MovieProvider = ({children}:{children:React.ReactNode}) => {
+  const [movies,setMovies]=useState([]);
   return (
     <>
-    <MovieContext.Provider value={{}}>
+    <MovieContext.Provider value={{movies,setMovies}}>
         {children}
     </MovieContext.Provider>
     </>
