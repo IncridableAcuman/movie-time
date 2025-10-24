@@ -23,9 +23,48 @@ export const MovieProvider = ({children}:{children:React.ReactNode}) => {
     }
   }
 
+  const fetchTv = async (category:string)=>{
+    try {
+      setLoading(true);
+      const {data} = await axios.get(`${process.env.BASE_URL}/tv/${category}`);
+      setMovies(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Error fetching movies:");
+    } finally{
+      setLoading(false);
+    }
+  }
+
+  const fetchGeneres = async (category:string)=>{
+     try {
+      setLoading(true);
+      const {data} = await axios.get(`${process.env.BASE_URL}/genres/${category}`);
+      setMovies(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Error fetching movies:");
+    } finally{
+      setLoading(false);
+    }
+  }
+
+  const fetchCartoons = async ()=>{
+     try {
+      setLoading(true);
+      const {data} = await axios.get(`${process.env.BASE_URL}/cartoons`);
+      setMovies(data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      toast.error("Error fetching movies:");
+    } finally{
+      setLoading(false);
+    }
+  }
+
   return (
     <>
-    <MovieContext.Provider value={{movies,setMovies,loading,fetchMovies}}>
+    <MovieContext.Provider value={{movies,setMovies,loading,fetchMovies,fetchTv,fetchGeneres,fetchCartoons}}>
         {children}
     </MovieContext.Provider>
     </>
