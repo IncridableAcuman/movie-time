@@ -44,5 +44,16 @@ class MovieController{
             
         }
     }
+
+    async getListByCategory(req,res){
+        try {
+            const {category}=req.params;
+            const data = await movieService.getList(category);
+            return res.json(data);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({success:false,message:"Network Error"});   
+        }
+    }
 }
 module.exports=new MovieController();

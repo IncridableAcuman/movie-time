@@ -57,9 +57,36 @@ class MovieService{
 
     // movie,tv
     async getGeneres(category){
+        const cacheKey=`genres:${category}`;
+        const cached=await client.get(cacheKey);
+        if(cached){
+            const jsonData=JSON.parse(cached);
+            return jsonData.map(m=>new Movie(m));
+        }
         const {data} = await axios.get(`${url}/3/genre/${category}/list?api_key=${key}&language=en`);
+        await client.setEx(cacheKey,3600,JSON.stringify(data.genres));
         return data.results.map(m=>new Movie(m));
 
+    }
+
+    async getList(category){
+        const cacheKey=`list:${category}`;
+        const cached=await client.get(cacheKey);
+        if(cached){
+            const jsonData=JSON.parse(cached);
+            return jsonData.map(m=>new Movie(m));
+        }
+        const {data} = await axios.get(`${url}/3/discover/${category}`,{
+            params:{
+                api_key:key,
+                language:"en-US",
+                sort_by:"popularity.desc",
+                include_adult:false,
+                page:1
+            }
+        });
+        await client.setEx(cacheKey,3600,JSON.stringify(data.results));
+        return data.items.map(m=>new Movie(m));
     }
 
 }
