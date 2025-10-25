@@ -1,13 +1,30 @@
 const axios = require("axios");
+const redis=require("redis");
 const Movie=require("../dto/Movie");
+
 const url=process.env.TMDB_URL || "12";
 const key=process.env.KEY || "aa";
-class MovieService{
 
+const client=redis.createClient();
+
+(async ()=>{
+    await client.connect();
+    console.log("Redis connected");
+})();
+
+class MovieService{
 
     // popular,top_rated,upcoming,now_playing
     async getMovies(category){
+
+        const cacheKey=`movies:${category}`;
+        const cached=await client.get(cacheKey);
+        if(cached){
+            const jsonData=JSON.parse(cached);
+            return jsonData.map(m=>new Movie(m));
+        }
         const {data} = await axios.get(`${url}/3/movie/${category}?api_key=${key}&language=en-US`);
+        await client.setEx(cacheKey,300,JSON.stringify(data.results));
         return data.results.map(m=>new Movie(m));
     }
 
