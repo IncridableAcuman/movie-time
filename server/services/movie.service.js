@@ -24,19 +24,33 @@ class MovieService{
             return jsonData.map(m=>new Movie(m));
         }
         const {data} = await axios.get(`${url}/3/movie/${category}?api_key=${key}&language=en-US`);
-        await client.setEx(cacheKey,300,JSON.stringify(data.results));
+        await client.setEx(cacheKey,3600,JSON.stringify(data.results));
         return data.results.map(m=>new Movie(m));
     }
 
     //popular,top_rated,on_the_air
-    async getTVList(category){
+    async getTVList(category){  
+        const cacheKey=`tv:${category}`;
+        const cached=await client.get(cacheKey);
+        if(cached){
+          const jsonData=JSON.parse(cached);
+          return jsonData.map(m=>new Movie(m));  
+        }
         const {data} = await axios.get(`${url}/3/tv/${category}?api_key=${key}&language=en-US`);
+        await client.setEx(cacheKey,3600,JSON.stringify(data.results));
         return data.results.map(m=>new Movie(m));
 
     }
 
     async getCartoons(){
+        const cashedKey=`cartoons:cartoons`;
+        const cached=await client.get(cashedKey);
+        if(cached){
+            const jsonData=JSON.parse(cached);
+            return jsonData.map(m=>new Movie(m));
+        }
         const {data} = await axios.get(`${url}/3/discover/movie?api_key=${key}&with_genres=16&language=en-US`);
+        await client.setEx(cashedKey,3600,JSON.stringify(data.results));
         return data.results.map(m=>new Movie(m));
 
     }
