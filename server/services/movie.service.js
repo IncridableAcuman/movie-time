@@ -36,7 +36,13 @@ class MovieService{
           const jsonData=JSON.parse(cached);
           return jsonData.map(m=>new Movie(m));  
         }
-        const {data} = await axios.get(`${url}/3/tv/${category}?api_key=${key}&language=en-US`);
+        const {data} = await axios.get(`${url}/3/tv/${category}`,{
+            params:{
+                api_key:key,
+                language:"en-US",
+                page:3
+            }
+        });
         await client.setEx(cacheKey,3600,JSON.stringify(data.results));
         return data.results.map(m=>new Movie(m));
 

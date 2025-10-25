@@ -9,7 +9,6 @@ const MovieContext=createContext<MovieContextType | undefined>(undefined);
 
 export const MovieProvider = ({children}:{children:ReactNode}) => {
   const [cartoons,setCartoons]=useState<IMovie[]>([]);
-  const [series,setSeries]=useState<IMovie[]>([]);
   const [popular,setPopular]=useState<IMovie[]>([]);
   const [topRated,setTopRated]=useState<IMovie[]>([]);
   const [upcoming,setUpcoming]=useState<IMovie[]>([]);
@@ -46,18 +45,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
     }
   }
 
-  const fetchTv = async (category:string)=>{
-    try {
-      setLoadingState(category,true);
-      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/tv/${category}`);
-      setSeries(data);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
-      toast.error("Error fetching movies:");
-    } finally{
-      setLoadingState(category,false);
-    }
-  }
+
 
   const fetchGeneres = async (category:string)=>{
      try {
@@ -93,14 +81,11 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
         genres,
         cartoons,
         topRated,
-        series,
         nowPlaying,
         setGenres,
-        setSeries,
         setCartoons,
         loading,
         fetchMovies,
-        fetchTv,
         fetchGeneres,
         fetchCartoons
       }}>

@@ -29,8 +29,8 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           <Link href={"/"} className='hover:text-pink-600 transition-colors'>Asosiy</Link>
           <Link href={"/movie"} className='hover:text-pink-600 transition-colors'>Kino</Link>
-          <Link href={"/"} className='hover:text-pink-600 transition-colors'>Seriallar</Link>
-          <Link href={"/"} className='hover:text-pink-600 transition-colors'>Multifilm</Link>
+          <Link href={"/series"} className='hover:text-pink-600 transition-colors'>Seriallar</Link>
+          <Link href={"/cartoon"} className='hover:text-pink-600 transition-colors'>Multifilm</Link>
         </div>
         {/* end */}
         <div className="flex items-center gap-4">
