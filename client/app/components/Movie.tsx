@@ -4,10 +4,11 @@ import { useMovie } from '../context/MovieProvider'
 import Image from 'next/image';
 import IMovie from '../interface/movie.interface';
 import { ArrowRight } from 'lucide-react';
+import Loading from './Loading';
 
 const Movie = ({category,content}:{category:string,content:string}) => {
 
-    const {fetchMovies,popular,upcoming,topRated,nowPlaying} = useMovie();
+    const {fetchMovies,popular,upcoming,topRated,nowPlaying,loading} = useMovie();
 
     const movies =  category ==="popular"
                     ? popular ?? []
@@ -25,6 +26,14 @@ const Movie = ({category,content}:{category:string,content:string}) => {
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[]);
+
+    if(loading[category]) {
+        return (
+            <div className="w-full h-screen flex items-center justify-center bg-black/80 opacity-80">
+                <Loading/>
+            </div>
+        )
+    }
 
   return (
     <div className="">
