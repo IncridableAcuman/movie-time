@@ -1,9 +1,10 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { Key, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Image from 'next/image'
-import { useTv } from '../interface/TvProvier'
 import Footer from '../components/Footer'
+import { useTv } from '../context/TvProvier'
+import IMovie from '../interface/movie.interface'
 
 const SeriesPage = () => {
   
@@ -29,7 +30,7 @@ const SeriesPage = () => {
                 <h1 className='text-lg md:text-2xl font-semibold py-4'>Seriallar</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto pb-10">
                   {
-                    tvList.map((serie,index)=>(
+                    tvList.map((serie:IMovie,index:Key)=>(
                       <div className=" relative shrink-0 " key={index} >
                                       <Image src={`https://image.tmdb.org/t/p/w500${serie?.poster_path}`} width={300} height={300} alt={"image"}  className="rounded-lg object-cover w-96 h-[300px]" />
                                        <div className="absolute bottom-0 left-0 w-full p-3 bg-linear-to-tl from-black/80 to-transparent text-white rounded-b-lg">
