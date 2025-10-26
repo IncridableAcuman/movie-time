@@ -1,6 +1,7 @@
 const axios = require("axios");
 const redis=require("redis");
 const Movie=require("../dto/Movie");
+const Video=require("../dto/Video");
 
 const url=process.env.TMDB_URL || "12";
 const key=process.env.KEY || "aa";
@@ -82,7 +83,7 @@ class MovieService{
             const jsonData=JSON.parse(cached);
             return jsonData.map(m=>new Movie(m));
         }
-        const {data} = await axios.get(`${url}/3/discover/${category}`,{
+        const {data} = await axios.get(`${url}/3/discover/${category}?api_key=${key}`,{
             params:{
                 api_key:key,
                 language:"en-US",
@@ -92,7 +93,19 @@ class MovieService{
             }
         });
         await client.setEx(cacheKey,3600,JSON.stringify(data.results));
-        return data.items.map(m=>new Movie(m));
+        return data.results.map(m=>new Movie(m));
+    }
+
+    async getVideos(id){
+        const cacheKey=`video:${id}`;
+        const cached=await client.get(cacheKey);
+        if(cached){
+            const jsonData=JSON.parse(cached);
+            return jsonData.map(m=>new Video(m));
+        }
+        const {data} = await axios.get(`${url}/3/movie/${id}/videos?api_key=${key}&language=en-US`);
+        await client.setEx(cacheKey,3600,JSON.stringify(data.results));
+        return data.results.map(m=>new Video(m));
     }
 
 }

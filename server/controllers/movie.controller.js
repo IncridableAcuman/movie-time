@@ -55,5 +55,15 @@ class MovieController{
             return res.status(500).json({success:false,message:"Network Error"});   
         }
     }
+
+    async getVideos(req,res){
+        try {
+            const {id}=req.params;
+            const data = await movieService.getVideos(id);
+            return res.json(data);
+        } catch (error) {
+            return res.status(500).json({success:false,message:"Network Error"}); 
+        }
+    }
 }
 module.exports=new MovieController();
