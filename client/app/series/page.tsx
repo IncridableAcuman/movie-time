@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import Image from 'next/image'
 import { useTv } from '../interface/TvProvier'
+import Footer from '../components/Footer'
 
 const SeriesPage = () => {
   
@@ -41,6 +42,8 @@ const SeriesPage = () => {
                 </div>
               </div>
             </div>
+            {/* footer */}
+            <Footer/>
     </div>
   )
 }

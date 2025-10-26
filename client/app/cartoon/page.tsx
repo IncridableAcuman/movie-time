@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import { useMovie } from '../context/MovieProvider'
 import Loading from '../components/Loading'
 import Image from 'next/image'
+import Footer from '../components/Footer'
 
 const CartoonPage = () => {
   const {fetchCartoons,cartoons} = useMovie();
@@ -44,6 +45,8 @@ const CartoonPage = () => {
                 </div>
               </div>
             </div>
+            {/* footer */}
+            <Footer/>
     </div>
   )
 }

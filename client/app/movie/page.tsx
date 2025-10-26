@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import { useMovie } from '../context/MovieProvider'
 import Loading from '../components/Loading';
 import Image from 'next/image';
+import Footer from '../components/Footer';
 
 const MoviePage = () => {
   const {fetchMovies,loading,popular,upcoming,nowPlaying,topRated} = useMovie();
@@ -53,6 +54,8 @@ const MoviePage = () => {
           </div>
         </div>
       </div>
+      {/* footer */}
+      <Footer/>
     </div>
   )
 }
