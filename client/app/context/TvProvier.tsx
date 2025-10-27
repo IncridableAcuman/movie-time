@@ -1,10 +1,10 @@
 'use client'
 
 import { createContext, ReactNode, useContext, useState } from "react"
-import ITvType from "./tvType.interface"
 import toast from "react-hot-toast";
-import IMovie from "./movie.interface";
 import axios from "axios";
+import IMovie from "../interface/movie.interface";
+import ITvType from "../interface/tvType.interface";
 
 const TvContext=createContext<ITvType | undefined>(undefined);
 
