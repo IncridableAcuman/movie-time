@@ -68,11 +68,11 @@ class MovieService{
         const cached=await client.get(cacheKey);
         if(cached){
             const jsonData=JSON.parse(cached);
-            return jsonData.map(m=>new Movie(m));
+            return jsonData.map(g=>new Movie(g));
         }
         const {data} = await axios.get(`${url}/3/genre/${category}/list?api_key=${key}&language=en`);
         await client.setEx(cacheKey,3600,JSON.stringify(data.genres));
-        return data.results.map(m=>new Movie(m));
+        return data.genres.map(g=>new Movie(g));
 
     }
 
@@ -83,7 +83,7 @@ class MovieService{
             const jsonData=JSON.parse(cached);
             return jsonData.map(m=>new Movie(m));
         }
-        const {data} = await axios.get(`${url}/3/discover/${category}?api_key=${key}`,{
+        const {data} = await axios.get(`${url}/3/discover/${category}`,{
             params:{
                 api_key:key,
                 language:"en-US",
@@ -96,16 +96,19 @@ class MovieService{
         return data.results.map(m=>new Movie(m));
     }
 
-    async getVideos(id){
+    async getVideos(category,id){
         const cacheKey=`video:${id}`;
         const cached=await client.get(cacheKey);
         if(cached){
             const jsonData=JSON.parse(cached);
-            return jsonData.map(m=>new Video(m));
+            return jsonData.map(v=>new Video(v));
         }
-        const {data} = await axios.get(`${url}/3/movie/${id}/videos?api_key=${key}&language=en-US`);
-        await client.setEx(cacheKey,3600,JSON.stringify(data.results));
-        return data.results.map(m=>new Video(m));
+        const {data} = await axios.get(`${url}/3/${category}/${id}/videos?api_key=${key}&language=en-US`);
+        console.log(data);
+        if(data.results.length!==0){
+             await client.setEx(cacheKey,3600,JSON.stringify(data.results));
+        }
+        return data.results.map(v=>new Video(v));
     }
 
 }

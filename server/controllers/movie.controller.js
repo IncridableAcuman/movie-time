@@ -58,8 +58,8 @@ class MovieController{
 
     async getVideos(req,res){
         try {
-            const {id}=req.params;
-            const data = await movieService.getVideos(id);
+            const {category,id}=req.params;
+            const data = await movieService.getVideos(category,id);
             return res.json(data);
         } catch (error) {
             return res.status(500).json({success:false,message:"Network Error"}); 
