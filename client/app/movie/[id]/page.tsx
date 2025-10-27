@@ -11,7 +11,7 @@ const Video = () => {
 
   const fetchVideos = async ()=>{
     try {
-      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/videos/movie/${id}`);
+      const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/api/videos/movie/${id}`);
       setVideos(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
