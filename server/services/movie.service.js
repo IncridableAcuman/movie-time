@@ -6,12 +6,14 @@ const Video=require("../dto/Video");
 const url=process.env.TMDB_URL || "12";
 const key=process.env.KEY || "aa";
 
-const client=redis.createClient();
+const client=redis.createClient({
+    url: process.env.REDIS_URL || "redis://localhost:6379"
+});
 
 (async ()=>{
     await client.connect();
     console.log("Redis connected");
-})();
+})()
 
 class MovieService{
 

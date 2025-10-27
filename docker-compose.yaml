@@ -8,6 +8,8 @@ services:
       - "3000:3000"
     depends_on:
       - server
+    env_file:
+      - /client/.env
     networks:
       - app-network
   
@@ -19,6 +21,8 @@ services:
       - "8080:8080"
     depends_on:
       - redis
+    env_file:
+      - /server/.env
     networks:
       - app-network
   
