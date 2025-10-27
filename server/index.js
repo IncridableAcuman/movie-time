@@ -6,7 +6,7 @@ const movieRoute=require("./routes/movie.routes");
 const app=express();
 
 app.use(express.json());
-app.use(cors({credentials:true,origin:process.env.CLIENT}));
+app.use(cors({credentials:true,origin:https://izzatbek-kino-vaqti3.onrender.com}));
 
 app.use("/api",movieRoute);
 
