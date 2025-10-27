@@ -22,7 +22,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchMovies = async (category:string)=>{
     try {
       setLoadingState(category,true);
-      const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/api/movies/${category}`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/movies/${category}`);
       switch(category){
         case "popular":
           setPopular(data);
@@ -50,7 +50,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchGeneres = async (category:string)=>{
      try {
       setLoadingState(category,true);
-      const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/api/genres/${category}`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/genres/${category}`);
       setGenres(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -63,7 +63,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchCartoons = async ()=>{
      try {
       setLoadingState('cartoons',true);
-      const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/api/cartoons`);
+      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/cartoons`);
       setCartoons(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
