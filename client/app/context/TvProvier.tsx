@@ -16,7 +16,7 @@ export const TvProvier = ({children}:{children:ReactNode}) => {
 
     const fetchTv = async (category:string)=>{
         try {
-            const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/tv/${category}`);
+            const {data} = await axios.get(`https://izzatbek-movie-time.onrender.com/api/tv/${category}`);
             switch(category){
                 case "popular":
                     setPopular(data);
