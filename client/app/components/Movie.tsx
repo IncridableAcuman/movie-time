@@ -5,8 +5,10 @@ import Image from 'next/image';
 import IMovie from '../interface/movie.interface';
 import { ArrowRight } from 'lucide-react';
 import Loading from './Loading';
+import { useRouter } from 'next/navigation';
 
 const Movie = ({category,content}:{category:string,content:string}) => {
+    const router=useRouter();
 
     const {fetchMovies,popular,upcoming,topRated,nowPlaying,loading} = useMovie();
 
@@ -41,7 +43,7 @@ const Movie = ({category,content}:{category:string,content:string}) => {
         <div className='pdg flex items-center gap-4 overflow-x-auto scrollbar-hide'>
                 {
                    movies.map((movie:IMovie,index:Key | undefined)=>(
-                    <div className=" relative shrink-0 " key={index} >
+                    <div className=" relative shrink-0 cursor-pointer " onClick={()=>router.push(`/movie/${movie.id}`)} key={index} >
                         <Image src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
                         width={500} height={500} alt={"image"} className="rounded-lg object-cover w-64 h-[300px]" />
                         <div className="absolute bottom-0 left-0 w-full p-3 bg-linear-to-t from-black/80 to-transparent text-white rounded-b-lg">

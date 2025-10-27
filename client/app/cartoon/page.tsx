@@ -5,9 +5,11 @@ import { useMovie } from '../context/MovieProvider'
 import Loading from '../components/Loading'
 import Image from 'next/image'
 import Footer from '../components/Footer'
+import { useRouter } from 'next/navigation'
 
 const CartoonPage = () => {
   const {fetchCartoons,cartoons} = useMovie();
+  const router=useRouter();
 
   React.useEffect(()=>{
     if(cartoons.length===0){
@@ -33,7 +35,7 @@ const CartoonPage = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 overflow-y-auto pb-10">
                   {
                     cartoons.map((movie,index)=>(
-                      <div className=" relative shrink-0 " key={index} >
+                      <div className=" relative shrink-0 cursor-pointer " onClick={()=>router.push(`/movie/${movie.id}`)} key={index} >
                                       <Image src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`} width={300} height={300} alt={"image"}  className="rounded-lg object-cover w-96 h-[300px]" />
                                        <div className="absolute bottom-0 left-0 w-full p-3 bg-linear-to-tl from-black/80 to-transparent text-white rounded-b-lg">
                                         <h1 className="text-lg font-semibold">{movie.title}</h1>
