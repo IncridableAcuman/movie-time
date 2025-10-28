@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import IMovie from "../interface/movie.interface";
 import ITvType from "../interface/tvType.interface";
+import { api } from "../api";
 
 const TvContext=createContext<ITvType | undefined>(undefined);
 
@@ -16,7 +17,7 @@ export const TvProvier = ({children}:{children:ReactNode}) => {
 
     const fetchTv = async (category:string)=>{
         try {
-            const {data} = await axios.get(`https://movie-time-backend-kfwq.onrender.com/api/tv/${category}`);
+            const {data} = await axios.get(`${api}/tv/${category}`);
             switch(category){
                 case "popular":
                     setPopular(data);

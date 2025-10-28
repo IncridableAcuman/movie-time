@@ -6,8 +6,17 @@ const Video=require("../dto/Video");
 const url=process.env.TMDB_URL || "12";
 const key=process.env.KEY || "aa";
 
+let redisUrl;
+if(process.env.NODE_ENV==="production"){
+    redisUrl=process.env.REDIS_URL;
+} else if(process.env.NODE_ENV === "development")  {
+    redisUrl="redis://localhost:6379";
+} else{
+    redisUrl="redis://redis:6379";
+}
+
 const client=redis.createClient({
-    url: process.env.REDIS_URL || "redis://localhost:6379"
+    url: redisUrl
 });
 
 (async ()=>{

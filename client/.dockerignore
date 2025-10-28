@@ -1,7 +1,8 @@
 node_modules
-.next
-.git
-.env
+npm-debug.log
 Dockerfile
 docker-compose.yml
-.dockerignore
+.git
+.env
+.next
+.vscode
