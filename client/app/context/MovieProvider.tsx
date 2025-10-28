@@ -4,6 +4,7 @@ import MovieContextType from '../interface/movieType.interface';
 import IMovie from '../interface/movie.interface';
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { api } from '../api';
 
 const MovieContext=createContext<MovieContextType | undefined>(undefined);
 
@@ -22,7 +23,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchMovies = async (category:string)=>{
     try {
       setLoadingState(category,true);
-      const {data} = await axios.get(`https://movie-time-backend-kfwq.onrender.com/api/movies/${category}`);
+      const {data} = await axios.get(`${api}/movies/${category}`);
       switch(category){
         case "popular":
           setPopular(data);
@@ -50,7 +51,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchGeneres = async (category:string)=>{
      try {
       setLoadingState(category,true);
-      const {data} = await axios.get(`https://movie-time-backend-kfwq.onrender.com/api/genres/${category}`);
+      const {data} = await axios.get(`${api}/genres/${category}`);
       setGenres(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -63,7 +64,7 @@ export const MovieProvider = ({children}:{children:ReactNode}) => {
   const fetchCartoons = async ()=>{
      try {
       setLoadingState('cartoons',true);
-      const {data} = await axios.get(`https://movie-time-backend-kfwq.onrender.com/api/cartoons`);
+      const {data} = await axios.get(`${api}/cartoons`);
       setCartoons(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

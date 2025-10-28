@@ -1,4 +1,5 @@
 'use client';
+import { api } from '@/app/api';
 import IVIdeo from '@/app/interface/video.interface';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
@@ -11,7 +12,7 @@ const Video = () => {
 
   const fetchVideos = async ()=>{
     try {
-      const {data} = await axios.get(`https://movie-time-backend-kfwq.onrender.com/api/videos/movie/${id}`);
+      const {data} = await axios.get(`${api}/videos/movie/${id}`);
       setVideos(data);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
