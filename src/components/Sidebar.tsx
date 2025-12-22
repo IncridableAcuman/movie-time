@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const menuItems = [
-    {path:"#",icons:<Home/>,content:'Home'},
-    {path:"#",icons:<Tv/>,content:'Movies'},
-    {path:"#",icons:<Video/>,content:'TV Shows'},
-    {path:"#",icons:<Tv2/>,content:'Series'},
-    {path:"#",icons:<PersonStanding/>,content:'Kids'},
+    {path:"/",icons:<Home/>,content:'Home'},
+    {path:"/movies",icons:<Tv/>,content:'Movies'},
+    {path:"/tv",icons:<Video/>,content:'TV Shows'},
+    {path:"/series",icons:<Tv2/>,content:'Series'},
+    {path:"/kids",icons:<PersonStanding/>,content:'Kids'},
     {path:"#",icons:<Search/>,content:'Search'},
   ];
   return (
