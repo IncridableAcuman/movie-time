@@ -14,7 +14,6 @@ const Sidebar = () => {
     <div>
       <header className="flex flex-col items-center justify-center py-4 border-b border-gray-700 border-dashed">
         <img src="./netflix.png" alt="logo" className="w-24" />
-        <h1 className="text-lg font-extrabold">Movie Time</h1>
       </header>
       <div className="p-2">
         {
