@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div className="bg-gray-900 text-white">
     <ToastContainer/>
-    <Routes>
+    <Routes >
       <Route path="/" element={<Layout/>}>
         <Route index element={<Home/>} />
       </Route>
