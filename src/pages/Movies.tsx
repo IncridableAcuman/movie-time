@@ -1,6 +1,8 @@
+import Footer from "../components/Footer"
 
 const Movies = () => {
     return (
+        <>
         <div className="w-full min-h-screen pt-24 px-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
 
@@ -34,6 +36,8 @@ const Movies = () => {
 
             </div>
         </div>
+        <Footer/>
+        </>
     )
 }
 
