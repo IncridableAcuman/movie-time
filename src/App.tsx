@@ -6,6 +6,7 @@ import Movies from "./pages/Movies"
 import Tv from "./pages/Tv"
 import Series from "./pages/Series"
 import Kids from "./pages/Kids"
+import Details from "./pages/Details"
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="tv" element={<Tv/>} />
         <Route path="series" element={<Series/>} />
         <Route path="kids" element={<Kids/>} />
+        <Route path="/details/:id" element={<Details/>} />
       </Route>
     </Routes>
     </div>

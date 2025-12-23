@@ -28,10 +28,12 @@ const Layout = () => {
             animate={{opacity:0.4}}
             exit={{opacity:0}}
             className="fixed inset-0 z-40 bg-black/50 md:hidden" onClick={()=>setOpen(false)} />
+
             <motion.aside
             initial={{x:'100%'}}
             animate={{x:0}}
             exit={{x:'100%'}}
+            onClick={()=>setOpen(false)}
             transition={{type:'spring',stiffness:260,damping:25}}
 
              className="fixed top-0 right-0 h-screen w-64 bg-gray-900 z-50 text-white md:hidden">
