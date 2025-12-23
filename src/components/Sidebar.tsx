@@ -1,4 +1,4 @@
-import { Home, PersonStanding, Search, Tv, Tv2, Video } from "lucide-react";
+import { Home, PersonStanding, Tv, Tv2, Video } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
@@ -8,7 +8,6 @@ const Sidebar = () => {
     {path:"/tv",icons:<Video/>,content:'TV Shows'},
     {path:"/series",icons:<Tv2/>,content:'Series'},
     {path:"/kids",icons:<PersonStanding/>,content:'Kids'},
-    {path:"#",icons:<Search/>,content:'Search'},
   ];
   return (
     <div>
