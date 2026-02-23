@@ -4,6 +4,9 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
 const mongoose=require('mongoose')
+
+const authRoutes=require('./routes/auth.routes')
+
 dotenv.config();
 
 const app = express();
@@ -17,6 +20,7 @@ app.use(express.json());
 app.use(cookieParser({}));
 app.use(logger('dev'))
 
+app.use("/api/auth",authRoutes);
 
 mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("MongoDb connected successfully");
