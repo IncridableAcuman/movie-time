@@ -4,11 +4,11 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
 const mongoose=require('mongoose')
+dotenv.config();
 
 const app = express();
 
 const port = process.env?.PORT || 8080;
-dotenv.config();
 app.use(cors({
     credentials: true,
     origin: "http://localhost:5173"
