@@ -6,6 +6,7 @@ const logger = require('morgan')
 const mongoose = require('mongoose')
 
 const authRoutes = require('./routes/auth.routes')
+const movieRoute = require('./routes/movie.routes')
 const errorMiddleware = require("./middleware/error.middleware")
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser({}));
 app.use(logger('dev'))
 app.use("/api/auth", authRoutes);
+app.use("/api/tmdb", movieRoute)
 
 app.use(errorMiddleware)
 
