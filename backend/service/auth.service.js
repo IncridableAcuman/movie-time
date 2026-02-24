@@ -11,7 +11,8 @@ class AuthService {
         if (existUser) {
             throw BaseError.BadRequest("User already exist");
         }
-        const hashPassword = await bcrypt.hash(password, 10);
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
         const user = await User.create({ username, email, password: hashPassword });
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
@@ -36,7 +37,7 @@ class AuthService {
         if (refreshToken === null) {
             throw BaseError.UnAuthorized();
         }
-        const payload = await tokenService.validateRefreshToken(refreshToken);
+        const payload = tokenService.validateRefreshToken(refreshToken);
         const dbToken = await tokenService.findToken(refreshToken);
         if (!payload || !dbToken) {
             throw BaseError.UnAuthorized();
@@ -54,16 +55,27 @@ class AuthService {
         return await tokenService.removeToken(refreshToken);
     }
     async forgotPassword(email) {
-        const user = await User.findOne({email});
-        if(!user){
+        const user = await User.findOne({ email });
+        if (!user) {
             throw BaseError.NotFound("User not found");
         }
         const dto = new UserDto(user);
-        const tokens = tokenService.generateToken({...dto});
-        mailService.sendMail(dto.email,`http://localhost:5173/reset-password?token=${tokens.accessToken}`);
+        const tokens = tokenService.generateToken({ ...dto });
+        mailService.sendMail(dto.email, `http://localhost:5173/reset-password?token=${tokens.accessToken}`);
     }
     async resetPassword(token, password) {
-
+        const payload = tokenService.validateAccessToken(token);
+        if (!payload) {
+            throw BaseError.UnAuthorized();
+        }
+        const user = await User.findById(payload.id);
+        if (!user) {
+            throw BaseError.NotFound("User not found");
+        }
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+        user.password = hashPassword;
+        await user.save();
     }
 
 }
