@@ -4,6 +4,9 @@ const BaseError = require('../error/base.error')
 const UserDto = require('../dto/user.dto');
 const tokenService = require('./token.service');
 const mailService = require('./mail.service');
+
+const SALT = 10;
+
 class AuthService {
 
     async register(username, email, password) {
@@ -11,30 +14,30 @@ class AuthService {
         if (existUser) {
             throw BaseError.BadRequest("User already exist");
         }
-        const salt = await bcrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(SALT);
         const hashPassword = await bcrypt.hash(password, salt);
         const user = await User.create({ username, email, password: hashPassword });
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens }
+        return { dto, ...tokens.accessToken }
     }
     async login(email, password) {
         const user = await User.findOne({ email });
         if (!user) {
             throw BaseError.NotFound("User not found");
         }
-        isCurrectPassword = await bcrypt.compare(password, user.password);
+        const isCurrectPassword = await bcrypt.compare(password, user.password);
         if (!isCurrectPassword) {
             throw BaseError.BadRequest("Invalid password")
         }
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens }
+        return { dto, ...tokens.accessToken }
     }
     async refresh(refreshToken) {
-        if (refreshToken === null) {
+        if(!refreshToken){
             throw BaseError.UnAuthorized();
         }
         const payload = tokenService.validateRefreshToken(refreshToken);
@@ -49,9 +52,12 @@ class AuthService {
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens }
+        return { dto, ...tokens.accessToken }
     }
     async logout(refreshToken) {
+        if(!refreshToken){
+            throw BaseError.BadRequest("Refresh token is required");
+        }
         return await tokenService.removeToken(refreshToken);
     }
     async forgotPassword(email) {
@@ -72,7 +78,7 @@ class AuthService {
         if (!user) {
             throw BaseError.NotFound("User not found");
         }
-        const salt = await bcrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(SALT);
         const hashPassword = await bcrypt.hash(password, salt);
         user.password = hashPassword;
         await user.save();

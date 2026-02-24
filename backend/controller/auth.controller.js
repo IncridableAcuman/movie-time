@@ -4,8 +4,8 @@ class AuthController {
 
     async register(req, res, next) {
         try {
-            const { username, email, passwrod } = req.body;
-            const user = await authService.register(username, email, passwrod);
+            const { username, email, password } = req.body;
+            const user = await authService.register(username, email, password);
             res.cookie('refreshToken', user.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.json(user);
         } catch (error) {
@@ -14,8 +14,8 @@ class AuthController {
     }
     async login(req, res, next) {
         try {
-            const { email, passwrod } = req.body;
-            const user = await authService.login(email, passwrod);
+            const { email, password } = req.body;
+            const user = await authService.login(email, password);
             res.cookie('refreshToken', user.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 })
             return res.json(user)
         } catch (error) {
@@ -35,7 +35,7 @@ class AuthController {
     async logout(req, res, next) {
         try {
             const { refreshToken } = req.cookies;
-            const user = await authService.logout(refreshToken);
+             await authService.logout(refreshToken);
             res.clearCookie("refreshToken");
             return res.json({ message: "You have successfully logged out." })
         } catch (error) {
@@ -53,8 +53,8 @@ class AuthController {
     }
     async resetPassword(req, res, next) {
         try {
-            const { username, email, passwrod } = req.body;
-            await authService.register(username, email, passwrod);
+            const { username, email, password } = req.body;
+            await authService.register(username, email, password);
             return res.json({ message: "Password updated successfully" })
         } catch (error) {
             next(error);

@@ -3,7 +3,7 @@ module.exports=class UserDto {
     email;
     username;
     constructor(model){
-        this.id=model.id;
+        this.id=model._id;
         this.email=model.email;
         this.username=model.username;
     }

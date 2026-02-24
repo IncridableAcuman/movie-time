@@ -4,9 +4,10 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
 const mongoose=require('mongoose')
+const bodyParser=require('body-parser')
 
 const authRoutes=require('./routes/auth.routes')
-
+const errorMiddleware = require("./middleware/error.middleware")
 dotenv.config();
 
 const app = express();
@@ -19,8 +20,11 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser({}));
 app.use(logger('dev'))
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 app.use("/api/auth",authRoutes);
+
+app.use(errorMiddleware)
 
 mongoose.connect(process.env.MONGO_URI).then(()=>{
     console.log("MongoDb connected successfully");
