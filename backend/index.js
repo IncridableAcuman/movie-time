@@ -3,10 +3,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan')
-const mongoose=require('mongoose')
-const bodyParser=require('body-parser')
+const mongoose = require('mongoose')
 
-const authRoutes=require('./routes/auth.routes')
+const authRoutes = require('./routes/auth.routes')
 const errorMiddleware = require("./middleware/error.middleware")
 dotenv.config();
 
@@ -18,20 +17,19 @@ app.use(cors({
     origin: "http://localhost:5173"
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser({}));
 app.use(logger('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded())
-app.use("/api/auth",authRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use(errorMiddleware)
 
-mongoose.connect(process.env.MONGO_URI).then(()=>{
+mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("MongoDb connected successfully");
     app.listen(port, () => {
-    console.log("Server is running on port: ", port);
-});
-}).catch((er)=>{
+        console.log("Server is running on port: ", port);
+    });
+}).catch((er) => {
     console.log("MongoDb connection failed!");
 })
 

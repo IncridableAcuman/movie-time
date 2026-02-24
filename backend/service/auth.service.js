@@ -67,9 +67,12 @@ class AuthService {
         }
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
-        mailService.sendMail(dto.email, `http://localhost:5173/reset-password?token=${tokens.accessToken}`);
+        await mailService.sendMail(dto.email, `http://localhost:5173/reset-password?token=${tokens.accessToken}`);
     }
     async resetPassword(token, password) {
+        if(!token){
+            throw BaseError.UnAuthorized();
+        }
         const payload = tokenService.validateAccessToken(token);
         if (!payload) {
             throw BaseError.UnAuthorized();

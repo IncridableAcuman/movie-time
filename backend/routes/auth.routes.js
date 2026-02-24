@@ -18,7 +18,7 @@ router.post("/logout", authController.logout);
 router.post("/forgot-password",
     body('email').isEmail(),
     authController.forgotPassword);
-router.post("/reset-password",
+router.put("/reset-password",
     body('password').isLength({ min: 8, max: 255 }).notEmpty(),
     body('token').notEmpty(),
     authController.resetPassword);

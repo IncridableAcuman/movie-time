@@ -1,26 +1,39 @@
 // src/components/ResetPassword.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axiosInstnace from '../api/axios.api';
+import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosInstnace from "../api/axios.api";
+import { UseLoader } from "../provider/LoaderProvider";
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate=useNavigate()
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const { startLoading, stopLoading } = UseLoader();
+  const navigate = useNavigate();
+  const [searchParam]=useSearchParams();
+  const token=searchParam.get("token");
 
   const handleSubmit = async (e) => {
+    startLoading();
     e.preventDefault();
     if (password !== confirmPassword) {
-      toast.info('Passwords do not match!');
+      toast.info("Passwords do not match!");
       return;
     }
     try {
-      const {data} = await axiosInstnace.put("/auth/reset-password",{password})
-      toast.success(data || "Successfully updated");
-      navigate("/auth")
+      const { data } = await axiosInstnace.put("/auth/reset-password", {
+        token,
+        password,
+      });
+      if (data) {
+        await new Promise(resolve=>setTimeout(resolve,2000))
+        toast.success(data || "Successfully updated");
+        navigate("/auth");
+      }
     } catch (error) {
-      toast.error(error.message || 'Password is incorrect')
+      toast.error(error.message || "Password is incorrect");
+    } finally {
+      stopLoading();
     }
   };
 
@@ -61,8 +74,11 @@ const ResetPassword = () => {
           </form>
 
           <p className="text-gray-400 text-sm mt-6">
-            Remembered your password?{' '}
-            <span onClick={()=>navigate("/auth")} className="text-white hover:underline cursor-pointer">
+            Remembered your password?{" "}
+            <span
+              onClick={() => navigate("/auth")}
+              className="text-white hover:underline cursor-pointer"
+            >
               Sign In
             </span>
           </p>

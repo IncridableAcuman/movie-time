@@ -1,21 +1,28 @@
 // src/components/ResetPassword.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axiosInstnace from '../api/axios.api';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosInstnace from "../api/axios.api";
+import {UseLoader} from "../provider/LoaderProvider";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
-  const navigate=useNavigate()
+  const { startLoading, stopLoading } = UseLoader();
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    startLoading()
     try {
-      const {data} = await axiosInstnace.post("/auth/forgot-password",email);
-      toast.success(data?.message || "Check your email")
-      navigate("/auth")
+      const { data } = await axiosInstnace.post("/auth/forgot-password", {email});
+      if (data) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        toast.success(data?.message || "Check your email");
+      }
     } catch (error) {
-      toast.error(error?.message || 'Email is incorrect!')
+      toast.error(error?.message || "Email is incorrect!");
+    } finally {
+      stopLoading();
     }
   };
 
@@ -29,7 +36,8 @@ const ForgotPassword = () => {
         <div className="bg-black/75 text-white w-full max-w-md p-8 rounded-md animate-fadeIn">
           <h1 className="text-3xl font-bold mb-6">Forgot Password</h1>
           <p className="text-gray-400 mb-6">
-            Enter your email address and we will send you a link to reset your password.
+            Enter your email address and we will send you a link to reset your
+            password.
           </p>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
@@ -42,7 +50,6 @@ const ForgotPassword = () => {
             />
             <button
               type="submit"
-              onSubmit={handleSubmit}
               className="bg-red-600 py-3 rounded font-semibold hover:bg-red-700 transition"
             >
               Send Reset Link
@@ -50,8 +57,11 @@ const ForgotPassword = () => {
           </form>
 
           <p className="text-gray-400 text-sm mt-6">
-            Remembered your password?{' '}
-            <span onClick={()=>navigate("/auth")} className="text-white hover:underline cursor-pointer">
+            Remembered your password?{" "}
+            <span
+              onClick={() => navigate("/auth")}
+              className="text-white hover:underline cursor-pointer"
+            >
               Sign In
             </span>
           </p>

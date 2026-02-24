@@ -6,8 +6,8 @@ class MailService {
             host: 'smtp.gmail.com',
             port: 587,
             auth: {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASSWORD
+                user: process?.env?.MAIL_USER || "abdusharipovizzat03@gmail.com",
+                pass: process?.env?.MAIL_PASSWORD || "olrjnjigzdquzomc "
             }
         });
     }
@@ -33,7 +33,7 @@ class MailService {
                 <div style="text-align: center; margin-top: 20px; font-size: 14px; color: #888;">
                     <p>If you did not request a password reset, please ignore this email.</p>
                     <p>For security reasons, this link will expire in 15 minutes.</p>
-                    <p>© 2025 Your Company. All rights reserved.</p>
+                    <p>© 2026 Movie Time. Izzatbek Abdusharipov</p>
                 </div>
             </div>`
         })

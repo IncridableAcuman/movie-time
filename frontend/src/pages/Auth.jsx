@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstnace from "../api/axios.api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UseLoader } from "../provider/LoaderProvider";
 
 const Auth = () => {
@@ -26,7 +26,7 @@ const Auth = () => {
         toast.success("Successfully");
         navigate("/");
       } catch (error) {
-        toast.error(error?.message || "Email or Password is incorrect");
+        toast.error(error.message || "Email or Password is incorrect");
         localStorage.clear();
       } finally {
         stopLoading();
@@ -44,7 +44,7 @@ const Auth = () => {
         toast.success("Successfully");
         navigate("/");
       } catch (error) {
-        toast.error(error?.message || "Email or Password is incorrect");
+        toast.error(error.message || "Email or Password is incorrect");
         localStorage.clear();
       } finally {
         stopLoading();
@@ -104,15 +104,18 @@ const Auth = () => {
             </div>
           </form>
 
-          <p className="text-gray-400 text-sm mt-6">
-            New to Netflix?{" "}
-            <span
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-white hover:underline cursor-pointer"
-            >
-              {isLogin ? "Sign In Now" : "Sign Up Now"}
-            </span>
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-gray-400 text-sm mt-6">
+              New to Netflix?{" "}
+              <span
+                onClick={() => setIsLogin(!isLogin)}
+                className="text-white hover:underline cursor-pointer"
+              >
+                {isLogin ? "Sign Up Now" : "Sign In Now"}
+              </span>
+            </p>
+            <Link to={"/forgot-password"} className="cursor-pointer hover:underline hover:text-red-500 text-xs">Forgot Password?</Link>
+          </div>
         </div>
       </div>
 
