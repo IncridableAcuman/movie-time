@@ -20,7 +20,7 @@ class AuthService {
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens.accessToken }
+        return { dto, ...tokens }
     }
     async login(email, password) {
         const user = await User.findOne({ email });
@@ -34,7 +34,7 @@ class AuthService {
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens.accessToken }
+        return { dto, ...tokens }
     }
     async refresh(refreshToken) {
         if(!refreshToken){
@@ -52,7 +52,7 @@ class AuthService {
         const dto = new UserDto(user);
         const tokens = tokenService.generateToken({ ...dto });
         await tokenService.saveToken(dto.id, tokens.refreshToken);
-        return { dto, ...tokens.accessToken }
+        return { dto, ...tokens }
     }
     async logout(refreshToken) {
         if(!refreshToken){

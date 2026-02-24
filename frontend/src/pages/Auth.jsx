@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstnace from "../api/axios.api";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const navigate=useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const Auth = () => {
         });
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Successfully");
-        navigation("/");
+        navigate("/");
       } catch (error) {
         toast.error(error?.message || "Email or Password is incorrect");
         localStorage.clear();
@@ -32,7 +34,7 @@ const Auth = () => {
         });
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Successfully");
-        navigation("/");
+        navigate("/");
       } catch (error) {
         toast.error(error?.message || "Email or Password is incorrect");
         localStorage.clear();
