@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 const Home = () => {
   return (
@@ -7,6 +8,7 @@ const Home = () => {
       <div className="bg-gray-950 w-full min-h-screen opacity-90 text-white">
         <Navbar/>
       </div>
+      <Footer/>
     </div>
   )
 }

@@ -5,10 +5,12 @@ import ResetPassword from "./pages/ResetPassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import { ToastContainer } from "react-toastify";
 import PrivateRoute from './guards/PrivateRoute'
+import Loader from "./components/Loader";
 
 const App = () => {
   return (
     <>
+    <Loader/>
       <ToastContainer />
       <Routes>
         <Route element={<PrivateRoute/>}>

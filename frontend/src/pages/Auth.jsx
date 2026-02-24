@@ -2,42 +2,52 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import axiosInstnace from "../api/axios.api";
 import { useNavigate } from "react-router-dom";
+import { UseLoader } from "../provider/LoaderProvider";
 
 const Auth = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const { startLoading, stopLoading } = UseLoader();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
+      startLoading();
       try {
         const { data } = await axiosInstnace.post("/auth/login", {
           email,
           password,
         });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Successfully");
         navigate("/");
       } catch (error) {
         toast.error(error?.message || "Email or Password is incorrect");
         localStorage.clear();
+      } finally {
+        stopLoading();
       }
     } else {
       try {
+        startLoading();
         const { data } = await axiosInstnace.post("/auth/register", {
           username,
           email,
           password,
         });
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         localStorage.setItem("accessToken", data.accessToken);
         toast.success("Successfully");
         navigate("/");
       } catch (error) {
         toast.error(error?.message || "Email or Password is incorrect");
         localStorage.clear();
+      } finally {
+        stopLoading();
       }
     }
   };
@@ -67,7 +77,7 @@ const Auth = () => {
             <input
               type="email"
               placeholder="Email"
-              className="p-3 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="p-3 rounded focus:outline-none focus:ring-2 focus:ring-red-600 bg-transparent"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -75,14 +85,13 @@ const Auth = () => {
             <input
               type="password"
               placeholder="Password"
-              className="p-3 bg-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-red-600"
+              className="p-3 rounded focus:outline-none focus:ring-2 focus:ring-red-600 bg-transparent"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button
               type="submit"
-              onSubmit={handleSubmit}
               className="bg-red-600 py-3 rounded font-semibold hover:bg-red-700 transition"
             >
               {isLogin ? "Sign In" : "Sign Up"}
