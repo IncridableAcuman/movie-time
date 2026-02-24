@@ -1,15 +1,22 @@
 // src/components/ResetPassword.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axiosInstnace from '../api/axios.api';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const navigate=useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Bu yerda backendga reset link yuborish logicini qo'shish mumkin
-    console.log('Reset link sent to:', email);
+    try {
+      const {data} = await axiosInstnace.post("/auth/forgot-password",email);
+      toast.success(data?.message || "Check your email")
+      navigate("/auth")
+    } catch (error) {
+      toast.error(error?.message || 'Email is incorrect!')
+    }
   };
 
   return (
@@ -35,6 +42,7 @@ const ForgotPassword = () => {
             />
             <button
               type="submit"
+              onSubmit={handleSubmit}
               className="bg-red-600 py-3 rounded font-semibold hover:bg-red-700 transition"
             >
               Send Reset Link

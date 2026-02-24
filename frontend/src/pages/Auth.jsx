@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import axiosInstnace from "../api/axios.api";
 
 const Auth = () => {
   const [username, setUsername] = useState("");
@@ -6,9 +8,36 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
+    if (isLogin) {
+      try {
+        const { data } = await axiosInstnace.post("/auth/login", {
+          email,
+          password,
+        });
+        localStorage.setItem("accessToken", data.accessToken);
+        toast.success("Successfully");
+        navigation("/");
+      } catch (error) {
+        toast.error(error?.message || "Email or Password is incorrect");
+        localStorage.clear();
+      }
+    } else {
+      try {
+        const { data } = await axiosInstnace.post("/auth/register", {
+          username,
+          email,
+          password,
+        });
+        localStorage.setItem("accessToken", data.accessToken);
+        toast.success("Successfully");
+        navigation("/");
+      } catch (error) {
+        toast.error(error?.message || "Email or Password is incorrect");
+        localStorage.clear();
+      }
+    }
   };
 
   return (
@@ -51,9 +80,10 @@ const Auth = () => {
             />
             <button
               type="submit"
+              onSubmit={handleSubmit}
               className="bg-red-600 py-3 rounded font-semibold hover:bg-red-700 transition"
             >
-              {isLogin ? 'Sign In' : 'Sign Up'}
+              {isLogin ? "Sign In" : "Sign Up"}
             </button>
             <div className="flex justify-between text-sm text-gray-400 mt-2">
               <label className="flex items-center gap-1">
@@ -65,8 +95,11 @@ const Auth = () => {
 
           <p className="text-gray-400 text-sm mt-6">
             New to Netflix?{" "}
-            <span onClick={()=> setIsLogin(!isLogin)} className="text-white hover:underline cursor-pointer">
-              {isLogin ? 'Sign In Now' : 'Sign Up Now'}
+            <span
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-white hover:underline cursor-pointer"
+            >
+              {isLogin ? "Sign In Now" : "Sign Up Now"}
             </span>
           </p>
         </div>

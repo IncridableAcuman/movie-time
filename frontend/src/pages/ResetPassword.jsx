@@ -1,21 +1,27 @@
 // src/components/ResetPassword.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axiosInstnace from '../api/axios.api';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const navigate=useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match!');
+      toast.info('Passwords do not match!');
       return;
     }
-    // Bu yerda backendga yangi parolni yuborish logicini qo'shish mumkin
-    console.log('Password updated:', password);
-    alert('Password successfully updated!');
+    try {
+      const {data} = await axiosInstnace.put("/auth/reset-password",{password})
+      toast.success(data || "Successfully updated");
+      navigate("/auth")
+    } catch (error) {
+      toast.error(error.message || 'Password is incorrect')
+    }
   };
 
   return (
