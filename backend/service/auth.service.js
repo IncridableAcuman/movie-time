@@ -2,7 +2,8 @@ const User = require('../model/user.model')
 const bcrypt = require('bcryptjs');
 const BaseError = require('../error/base.error')
 const UserDto = require('../dto/user.dto');
-const tokenService = require('./token.service')
+const tokenService = require('./token.service');
+const mailService = require('./mail.service');
 class AuthService {
 
     async register(username, email, password) {
@@ -53,7 +54,13 @@ class AuthService {
         return await tokenService.removeToken(refreshToken);
     }
     async forgotPassword(email) {
-
+        const user = await User.findOne({email});
+        if(!user){
+            throw BaseError.NotFound("User not found");
+        }
+        const dto = new UserDto(user);
+        const tokens = tokenService.generateToken({...dto});
+        mailService.sendMail(dto.email,`http://localhost:5173/reset-password?token=${tokens.accessToken}`);
     }
     async resetPassword(token, password) {
 
