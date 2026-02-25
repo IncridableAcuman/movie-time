@@ -5,11 +5,11 @@ services:
       - "8080:8080"
     environment:
       - MONGO_URI=mongodb://mongo:27017/movies
-      - JWT_ACCESS=jwt_access_token_secret
-      - JWT_REFRESH=jwt_refresh_token_secret
-      - MAIL_USER=abdusharipovizzat03@gmail.com
-      - MAIL_PASS=olrjnjigzdquzomc
-      - TMDB_KEY=72e0743d4c44f2e89be67102c4ed3fe5
+      - JWT_ACCESS=
+      - JWT_REFRESH=
+      - MAIL_USER=
+      - MAIL_PASS=
+      - TMDB_KEY=
     depends_on:
       - mongo
     networks:
@@ -18,7 +18,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "5173:80"
     depends_on:
       - backend
     networks:
@@ -26,8 +26,6 @@ services:
 
   mongo:
     image: mongo:latest
-    ports:
-      - "27017:27017"
     volumes:
       - mongo-data:/data/db
 
