@@ -4,8 +4,8 @@ module.exports = class BaseError extends Error {
         this.status = status;
         this.errors = errors;
     }
-    static UnAuthorized() {
-        return new BaseError(401, message="Unauthorized!")
+    static UnAuthorized(message="Unauthorized") {
+        return new BaseError(401,message)
     }
     static BadRequest(message="Bad Request", errors = []) {
         return new BaseError(400, message, errors);

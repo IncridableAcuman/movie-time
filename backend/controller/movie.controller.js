@@ -5,7 +5,7 @@ class MovieController{
         try {
             const {category}=req.params;
             const movies = await movieService.movieList(category);
-            return res.json(module);
+            return res.json(movies);
         } catch (error) {
             next(error)
         }
