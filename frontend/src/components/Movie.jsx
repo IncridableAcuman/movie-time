@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axiosInstance from "../api/axios.api";
+import { useNavigate } from "react-router-dom";
 
 const Movie = ({ category, title }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchMovies = async (signal) => {
     setLoading(true);
@@ -63,7 +65,7 @@ const Movie = ({ category, title }) => {
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="bg-gray-800/50 rounded-xl overflow-hidden aspect-[2/3] animate-pulse"
+                className="bg-gray-800/50 rounded-xl overflow-hidden aspect-2/3 animate-pulse"
               />
             ))}
           </div>
@@ -86,9 +88,10 @@ const Movie = ({ category, title }) => {
             {movies.slice(0, 10).map((movie) => (
               <div
                 key={movie.id}
+                onClick={()=>navigate(`/video/${movie.id}`)}
                 className="group bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-[1.04] hover:shadow-2xl hover:shadow-blue-900/20"
               >
-                <div className="relative aspect-[2/3] overflow-hidden">
+                <div className="relative aspect-2/3 overflow-hidden">
                   <img
                     src={
                       movie.poster_path
@@ -99,7 +102,7 @@ const Movie = ({ category, title }) => {
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </div>
 
                 <div className="p-4">

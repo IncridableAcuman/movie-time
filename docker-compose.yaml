@@ -1,33 +1,39 @@
 services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/movies
+      - JWT_ACCESS=jwt_access_token_secret
+      - JWT_REFRESH=jwt_refresh_token_secret
+      - MAIL_USER=abdusharipovizzat03@gmail.com
+      - MAIL_PASS=olrjnjigzdquzomc
+      - TMDB_KEY=72e0743d4c44f2e89be67102c4ed3fe5
+    depends_on:
+      - mongo
+    networks:
+      - mern-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - mern-network
+
   mongo:
     image: mongo:latest
-    container_name: mongo
-    restart: always
-    environment:
-      - MONGO_URI=value
-      - MONGO_USER=
-      - MONGO_PASSWORD=
-    env_file:
-      - .
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: node-server
-    restart: always
-    environment:
-      - JWT=value
-    env_file:
-      - .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongo
+      - mongo-data:/data/db
 
 volumes:
-  mongo_data: {}
+  mongo-data:
+
+networks:
+  mern-network:
+    driver: bridge
